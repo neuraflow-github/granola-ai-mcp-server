@@ -318,6 +318,29 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 - Granola sometimes stores rich notes inside `documentPanels` rather than `notes_plain`
 - This server reads those panels by default; set `GRANOLA_PARSE_PANELS=0` to disable
 
+### Manual installation issues
+
+These apply only if you installed from source (git clone) rather than via `uvx`.
+
+**"Permission denied" or "Operation not permitted"**
+- This happens when the server is installed in `~/Documents` or other protected macOS folders
+- Move the installation to your home directory:
+  ```bash
+  mv ~/Documents/granola-ai-mcp-server ~/granola-ai-mcp-server
+  cd ~/granola-ai-mcp-server
+  uv sync
+  ```
+  Then update the path in `claude_desktop_config.json`
+- Or grant Claude Desktop Full Disk Access in System Settings > Privacy & Security
+
+**"Current directory does not exist"**
+- This error occurs when using `uv run` with the `--directory` flag
+- Ensure the path in your Claude config points to the actual clone location
+
+**"Failed to spawn process" or "No such file or directory"**
+- Run `uv sync` in the project directory to rebuild the venv
+- Verify the script exists: `ls -la ~/granola-ai-mcp-server/.venv/bin/granola-mcp-server`
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
