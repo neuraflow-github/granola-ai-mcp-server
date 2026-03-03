@@ -161,8 +161,8 @@ If you prefer to install from source:
 
 ```bash
 cd ~
-git clone https://github.com/proofgeist/granola-ai-mcp-server
-cd granola-ai-mcp-server
+git clone https://github.com/proofgeist/granola-mcp-server
+cd granola-mcp-server
 uv sync
 ```
 
@@ -173,7 +173,7 @@ Then configure your MCP client to run the server directly:
   "mcpServers": {
     "granola": {
       "command": "uv",
-      "args": ["--directory", "/Users/YOUR_USERNAME/granola-ai-mcp-server", "run", "granola-mcp-server"]
+      "args": ["--directory", "/Users/YOUR_USERNAME/granola-mcp-server", "run", "granola-mcp-server"]
     }
   }
 }
@@ -258,7 +258,7 @@ uv run python run_server.py
 ### Project Structure
 
 ```
-granola-ai-mcp-server/
+granola-mcp-server/
 ├── granola_mcp_server/
 │   ├── __init__.py          # Package initialization
 │   ├── server.py            # Main MCP server implementation (~750 lines)
@@ -326,8 +326,8 @@ These apply only if you installed from source (git clone) rather than via `uvx`.
 - This happens when the server is installed in `~/Documents` or other protected macOS folders
 - Move the installation to your home directory:
   ```bash
-  mv ~/Documents/granola-ai-mcp-server ~/granola-ai-mcp-server
-  cd ~/granola-ai-mcp-server
+  mv ~/Documents/granola-mcp-server ~/granola-mcp-server
+  cd ~/granola-mcp-server
   uv sync
   ```
   Then update the path in `claude_desktop_config.json`
@@ -339,7 +339,7 @@ These apply only if you installed from source (git clone) rather than via `uvx`.
 
 **"Failed to spawn process" or "No such file or directory"**
 - Run `uv sync` in the project directory to rebuild the venv
-- Verify the script exists: `ls -la ~/granola-ai-mcp-server/.venv/bin/granola-mcp-server`
+- Verify the script exists: `ls -la ~/granola-mcp-server/.venv/bin/granola-mcp-server`
 
 ## 🤝 Contributing
 
