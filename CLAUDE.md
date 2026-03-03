@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MCP server that exposes Granola.ai meeting data (notes, transcripts, participants) to AI assistants. It reads directly from Granola's local cache file (`~/Library/Application Support/Granola/cache-v3.json`) — no API keys needed, macOS only.
+MCP server that exposes Granola.ai meeting data (notes, transcripts, participants) to AI assistants. It reads directly from Granola's local cache file (`~/Library/Application Support/Granola/cache-v4.json`, falling back to `cache-v3.json`) — no API keys needed, macOS only.
 
 ## Commands
 
@@ -61,4 +61,4 @@ Auto-detects system timezone via `time.tzname` with US timezone mappings. Falls 
 
 ## Release Process
 
-Uses **semantic-release** (Node.js) via GitHub Actions on push to `main`. Conventional commit messages drive version bumps. The `package.json` and `.nvmrc` exist solely for this CI pipeline.
+Uses **python-semantic-release** via GitHub Actions on push to `main`. Conventional commit messages drive version bumps. Config lives in `pyproject.toml` under `[tool.semantic_release]`.
