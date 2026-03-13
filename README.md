@@ -54,7 +54,7 @@ flowchart TB
     end
     
     subgraph Data["💾 Data Layer"]
-        CACHE_FILE[(Granola Cache<br/>cache-v4.json)]
+        CACHE_FILE[(Granola Cache<br/>cache-v*.json)]
         MODELS[Pydantic Models<br/>MeetingMetadata<br/>MeetingDocument<br/>MeetingTranscript]
     end
     
