@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.3.0 (2026-03-13)
+
+### Documentation
+
+- Update README diagram to reflect glob-based cache discovery
+  ([`b07b381`](https://github.com/proofgeist/granola-mcp-server/commit/b07b3812bf3241c8f521df9d1e6d8c02cbe5c313))
+
+### Features
+
+- Auto-detect highest Granola cache version via glob
+  ([`6927900`](https://github.com/proofgeist/granola-mcp-server/commit/69279004e9ba2227dd20e3af6a94fb74f670681a))
+
+
 ## v1.2.1 (2026-03-03)
 
 ### Bug Fixes
