@@ -10,11 +10,12 @@ class MeetingMetadata(BaseModel):
     id: str
     title: str = "(Untitled)"
 
+    date: datetime
+
     @field_validator("title", mode="before")
     @classmethod
     def coerce_title(cls, v):
         return v if v is not None else "(Untitled)"
-    date: datetime
     duration: Optional[int] = None
     participants: List[str] = []
     meeting_type: Optional[str] = None
