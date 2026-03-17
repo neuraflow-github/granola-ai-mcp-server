@@ -26,7 +26,7 @@ class GranolaMCPServer:
     def __init__(self, cache_path: Optional[str] = None, timezone: Optional[str] = None):
         """Initialize the Granola MCP server."""
         if cache_path is None:
-            cache_path = os.path.expanduser("~/Library/Application Support/Granola/cache-v3.json")
+            cache_path = self._find_latest_cache()
         
         self.cache_path = cache_path
         self.server = Server("granola-mcp-server")
@@ -41,6 +41,15 @@ class GranolaMCPServer:
             
         self._setup_handlers()
     
+    @staticmethod
+    def _find_latest_cache() -> str:
+        """Find the latest Granola cache file, regardless of version number."""
+        granola_dir = Path(os.path.expanduser("~/Library/Application Support/Granola"))
+        candidates = sorted(granola_dir.glob("cache-v*.json"), reverse=True)
+        if candidates:
+            return str(candidates[0])
+        return str(granola_dir / "cache-v6.json")
+
     def _detect_local_timezone(self):
         """Detect the local timezone."""
         try:
@@ -216,8 +225,14 @@ class GranolaMCPServer:
                 raise ValueError(f"Unknown tool: {name}")
     
     async def _ensure_cache_loaded(self):
-        """Ensure cache data is loaded."""
-        if self.cache_data is None:
+        """Ensure cache data is loaded and fresh."""
+        cache_path = Path(self.cache_path)
+        if cache_path.exists():
+            mtime = cache_path.stat().st_mtime
+            if self.cache_data is None or getattr(self, '_cache_mtime', None) != mtime:
+                await self._load_cache()
+                self._cache_mtime = mtime
+        elif self.cache_data is None:
             await self._load_cache()
     
     async def _load_cache(self):
@@ -232,9 +247,17 @@ class GranolaMCPServer:
                 raw_data = json.load(f)
             
             # Handle Granola's nested cache structure
-            if 'cache' in raw_data and isinstance(raw_data['cache'], str):
-                # Cache data is stored as a JSON string inside the 'cache' key
-                actual_data = json.loads(raw_data['cache'])
+            if 'cache' in raw_data:
+                cache_val = raw_data['cache']
+                if isinstance(cache_val, str):
+                    # v3: cache data stored as a JSON string
+                    actual_data = json.loads(cache_val)
+                elif isinstance(cache_val, dict):
+                    # v4: cache data is already a dict
+                    actual_data = cache_val
+                else:
+                    actual_data = raw_data
+
                 if 'state' in actual_data:
                     raw_data = actual_data['state']
                 else:

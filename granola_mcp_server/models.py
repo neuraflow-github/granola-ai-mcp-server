@@ -1,14 +1,19 @@
 """Data models for Granola meeting information."""
 
 from typing import Dict, List, Optional, Any
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from datetime import datetime
 
 
 class MeetingMetadata(BaseModel):
     """Meeting metadata information."""
     id: str
-    title: str
+    title: str = "(Untitled)"
+
+    @field_validator("title", mode="before")
+    @classmethod
+    def coerce_title(cls, v):
+        return v if v is not None else "(Untitled)"
     date: datetime
     duration: Optional[int] = None
     participants: List[str] = []
