@@ -402,7 +402,11 @@ class GranolaMCPServer:
                         content_parts.append(f"Summary: {doc_data['summary']}")
                     
                     content = "\n\n".join(content_parts)
-                    
+
+                    # Fall back to transcript if document has no content
+                    if not content.strip() and doc_id in cache_data.transcripts:
+                        content = cache_data.transcripts[doc_id].content
+
                     # Only create document if we have a meeting for it
                     if doc_id in cache_data.meetings:
                         meeting = cache_data.meetings[doc_id]
